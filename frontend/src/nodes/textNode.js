@@ -25,16 +25,18 @@ export const TextNode = ({ id, data }) => {
   const variables = extractVars(text);
 
   useEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-    el.style.height = 'auto';
-    const contentH = el.scrollHeight;
-    el.style.height = contentH + 'px';
-    const longestLine = Math.max(...text.split('\n').map((l) => l.length), 10);
-    const newW = Math.min(500, Math.max(240, longestLine * 8 + 60));
-    setNodeWidth(newW);
-  }, [text]);
+  const el = textareaRef.current;
+  if (!el) return;
 
+  el.style.height = 'auto';
+  const contentH = el.scrollHeight;
+  el.style.height = contentH + 'px';
+  const lines = text.split('\n');
+  const longestLine = Math.max(...lines.map(l => l.length), 20);
+  const newW = Math.min(700, Math.max(240, longestLine * 8));
+  setNodeWidth(newW);
+
+}, [text]);
   const HANDLE_SPACING = 28;
   const HANDLE_START   = 16;
 
@@ -49,7 +51,7 @@ export const TextNode = ({ id, data }) => {
       color: '#cdd6f4',
       boxShadow: '0 8px 32px rgba(0,0,0,0.45)',
       position: 'relative',
-      overflow: 'hidden',
+      overflow: 'visible',
     }}>
 
    
@@ -139,6 +141,9 @@ export const TextNode = ({ id, data }) => {
             overflow: 'hidden',
             fontFamily: 'inherit',
             lineHeight: 1.6,
+            whiteSpace: 'pre',
+wordBreak: 'keep-all',
+overflowWrap: 'normal',
           }}
         />
 
